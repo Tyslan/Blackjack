@@ -54,6 +54,7 @@ public class REKOPlayer implements Player {
 
     public REKOPlayer() {
     }
+<<<<<<< HEAD
 
     @Override
     public int bet() {
@@ -65,6 +66,19 @@ public class REKOPlayer implements Player {
     }
 
     @Override
+=======
+
+    @Override
+    public int bet() {
+        if (count < 8) {
+            return 1;
+        } else {
+            return 750;
+        }
+    }
+
+    @Override
+>>>>>>> Working-copy-1
     public Response prompt(Hand playerHand, Hand dealerHand, boolean canSplit) {
         if (playerHand.isPair()) {
             if (canSplit) {
@@ -130,5 +144,18 @@ public class REKOPlayer implements Player {
                 break;
         }
     }
+<<<<<<< HEAD
+=======
+    
+    @Override
+    public void setNumberOfMistakes(int number) {
+        throw new RuntimeException("This player doesn't make mistakes");
+    }
+
+    @Override
+    public int getNumberOfMistakes() {
+        return 0;
+    }
+>>>>>>> Working-copy-1
 
 }
