@@ -1,2 +1,7 @@
 
 bin/
+/nbproject/private/
+/manifest.mf
+/build.xml
+/nbproject/
+/build/
