@@ -1,11 +1,4 @@
 package com.philihp.bj;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.philihp.bj.Card.*;
 import static com.philihp.bj.Response.*;
 
 public class ZeroMemoryPlayer implements Player {

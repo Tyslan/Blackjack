@@ -1,6 +1,5 @@
 package com.philihp.bj;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Hand extends ArrayList<Card> implements Cloneable{
