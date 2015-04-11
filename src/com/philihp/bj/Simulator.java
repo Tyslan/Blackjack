@@ -1,10 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.philihp.bj;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Blackjack {
+/**
+ *
+ * @author Lorenz
+ */
+public class Simulator {
+    /**
+     * Number of simulations that are runned
+    */
+    public static int NUMBER_OF_SIMULATIONS = 10000;
+    
+    /**
+     * Number of hands that are played in a simulation
+    */
+    public static int NUMBER_OF_HANDS = 100;
 
     /**
      * Number of decks in a shoe
@@ -32,41 +50,45 @@ public class Blackjack {
      */
     public static float CUT_CARD_PENETRATION = 0.66667f;
 
-    public static int MIN_BET = 10;
+    public static int MIN_BET = 5;
 
     /**
      * House limit on number of resplits (max this many hands)
      */
     public static int LIMIT_ON_RESPLITS = 4;
 
-    public static Random randomizer;
+    public static SecureRandom randomizer;
 
     public static void main(String[] args) {
-
-        randomizer = new Random();
-        int seconds = 0;
         long startTime = System.nanoTime();
-        if (args.length == 1) {
-            seconds = Integer.parseInt(args[0]);
-            System.out.println("Running for " + seconds + " seconds...");
-        }else{
-            seconds = 10;
-            System.out.println("Running for " + seconds + " seconds...");
-        }
+        
+        randomizer = new SecureRandom();
 
         Player player = new ZeroMemoryPlayer();
         Player dealer = new DealerPlayer();
-        long money = 0; // 1,000,000
-        long handsPlayed = 0;
 
-        for (;;) {
+        long money = 0;
+        long handsPlayed = 0;
+        long simulationsRunned = 0;
+        
+        List<Long> moneyList =  new ArrayList<>();
+        List<Double> houseEdgeList = new ArrayList<>();
+        
+        while (simulationsRunned < NUMBER_OF_SIMULATIONS) {
             Deck deck = new Deck(SHOE_SIZE, player);
             deck.shuffle(randomizer);
             player.resetCount(SHOE_SIZE);
-            while ((float) deck.size() / deck.getInitialSize() > CUT_CARD_PENETRATION) {
-                handsPlayed++;
 
-                List<Hand> playerHands = new ArrayList<Hand>(1);
+            simulationsRunned++;
+            while (handsPlayed < NUMBER_OF_HANDS) {
+                handsPlayed++;
+                if ((float) deck.size() / deck.getInitialSize() > CUT_CARD_PENETRATION) {
+                    deck = new Deck(SHOE_SIZE, player);
+                    deck.shuffle(randomizer);
+                    player.resetCount(SHOE_SIZE);
+                }
+
+                List<Hand> playerHands = new ArrayList<>(1);
                 playerHands.add(new Hand(player.bet(), deck.draw(), deck.draw(), false));
                 Hand dealerHand = new Hand(deck.draw(), deck.draw());
                 money -= playerHands.get(0).getBet();
@@ -78,24 +100,35 @@ public class Blackjack {
                 }
 
                 money += playoutPlayer(player, deck, playerHands, dealerHand);
-
                 playoutDealer(deck, dealer, dealerHand);
 
                 for (Hand playerHand : playerHands) {
                     money += payout(playerHand, dealerHand);
                 }
             }
-
-            if ((System.nanoTime() - startTime) / 1000000000f > seconds) {
-                break;
-            }
+            
+            double houseEdge = (100 * (double) money / (handsPlayed * MIN_BET));
+            
+            System.out.println("Simulation " + simulationsRunned + ":");
+            System.out.println("Hands Played:    " + handsPlayed);
+            System.out.println("Money:           " + money);
+            System.out.println("Min-Bet:         " + MIN_BET);
+            System.out.println("House Edge :    " + houseEdge + "%");
+            System.out.println();
+            
+            moneyList.add(money);
+            houseEdgeList.add(houseEdge);
+            
+            handsPlayed = 0;
+            money = 0;
         }
-
-        System.out.println("Hands Played:    " + handsPlayed);
-        System.out.println("Money:           " + money);
-        System.out.println("Min-Bet:         " + MIN_BET);
-        System.out.println("House Edge %:    " + (100 * (double) money / (handsPlayed * MIN_BET)));
-        System.out.println("...in " + ((float) (System.nanoTime() - startTime) / 1000000000f) + " seconds");
+        
+        double avgPayout = moneyList.stream().mapToLong(i->i).average().getAsDouble();
+        double avgHouseEdge = houseEdgeList.stream().mapToDouble(i->i).average().getAsDouble();
+        System.out.println("Average payout: " + avgPayout);
+        System.out.println("Average House Edge: " + avgHouseEdge +"%");
+        
+        System.out.println("Runtime: " + ((float) (System.nanoTime() - startTime) / 1000000000f) + " seconds");
     }
 
     private static float playoutPlayer(Player player, Deck deck,

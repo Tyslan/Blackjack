@@ -54,11 +54,13 @@ public class ZeroMemoryPlayer implements Player {
     public ZeroMemoryPlayer() {
     }
 
+    @Override
     public int bet() {
         return Blackjack.MIN_BET * 1; // 15
         //max is 2000
     }
 
+    @Override
     public Response prompt(Hand playerHand, Hand dealerHand, boolean canSplit) {
         if (playerHand.isPair()) {
             if (canSplit) {
@@ -82,9 +84,11 @@ public class ZeroMemoryPlayer implements Player {
         }
     }
 
+    @Override
     public void notify(Card card) {
     }
 
+    @Override
     public void resetCount(int decks) {
     }
 
