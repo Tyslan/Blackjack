@@ -10,14 +10,21 @@ package com.philihp.bj;
  * @author Lorenz
  */
 public class SimulationRunResult {
+    private long simulationNr;
     private long payout;
     private double houseEdge;
     private int numberOfMistakes;
 
-    public SimulationRunResult(long payout, double houseEdge, int numberOfMistakes) {
+    public SimulationRunResult(long simulationNr, long payout, double houseEdge, int numberOfMistakes) {
+        this.simulationNr = simulationNr;
         this.payout = payout;
         this.houseEdge = houseEdge;
         this.numberOfMistakes = numberOfMistakes;
+
+    }
+
+    public long getSimulationNr() {
+        return simulationNr;
     }
 
     public long getPayout() {

@@ -5,6 +5,8 @@
  */
 package com.philihp.bj;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,7 @@ public class Simulator {
     /**
      * Number of simulations that are runned
     */
-    public static int NUMBER_OF_SIMULATIONS = 100;
+    public static int NUMBER_OF_SIMULATIONS = 2;
     
     /**
      * Number of hands that are played in a simulation
@@ -119,15 +121,15 @@ public class Simulator {
             
             double houseEdge = (100 * (double) money / (handsPlayed * MIN_BET));
             
-            System.out.println("Simulation " + simulationsRunned + ":");
-            System.out.println("Hands Played:    " + handsPlayed);
-            System.out.println("Money:           " + money);
-            System.out.println("Min-Bet:         " + MIN_BET);
-            System.out.println("House Edge :     " + houseEdge + "%");
-            System.out.println("Mistakes:        " + player.getNumberOfMistakes());
-            System.out.println();
+//            System.out.println("Simulation " + simulationsRunned + ":");
+//            System.out.println("Hands Played:    " + handsPlayed);
+//            System.out.println("Money:           " + money);
+//            System.out.println("Min-Bet:         " + MIN_BET);
+//            System.out.println("House Edge :     " + houseEdge + "%");
+//            System.out.println("Mistakes:        " + player.getNumberOfMistakes());
+//            System.out.println();
             
-            resultList.add(new SimulationRunResult(money, houseEdge, player.getNumberOfMistakes()));
+            resultList.add(new SimulationRunResult(simulationsRunned, money, houseEdge, player.getNumberOfMistakes()));
             
             handsPlayed = 0;
             money = 0;
@@ -141,6 +143,8 @@ public class Simulator {
         System.out.println("Averages mistakes: " + avgMistakes);
         
         System.out.println("Runtime: " + ((float) (System.nanoTime() - startTime) / 1000000000f) + " seconds");
+        
+        writeCSV("F:\\result.csv", resultList);
     }
 
     private static float playoutPlayer(Player player, Deck deck,
@@ -252,5 +256,46 @@ public class Simulator {
             throw new RuntimeException("Player: " + playerHand + ", Dealer: " + dealerHand);
         }
     }
-
+    
+    private static void writeCSV(String fileName, List<SimulationRunResult> list){
+        try
+	{
+	    FileWriter writer = new FileWriter(fileName);
+ 
+	    writer.append("Simulation number");
+	    writer.append(';');
+	    writer.append("Hands Played");
+            writer.append(';');
+            writer.append("Minimum Bet");
+            writer.append(';');
+            writer.append("Payout");
+            writer.append(';');
+            writer.append("House Edge (%)");
+            writer.append(';');
+            writer.append("Number of Mistakes");
+	    writer.append('\n');
+            
+            for(SimulationRunResult result: list){
+                writer.append(String.valueOf(result.getSimulationNr()));
+                writer.append(';');
+                writer.append(String.valueOf(NUMBER_OF_HANDS));
+                writer.append(';');
+                writer.append(String.valueOf(MIN_BET));              
+                writer.append(';');
+                writer.append(String.valueOf(result.getPayout()));
+                writer.append(';');
+                writer.append(String.valueOf(result.getHouseEdge()));
+                writer.append(';');
+                writer.append(String.valueOf(result.getNumberOfMistakes()));
+                writer.append('\n');
+            }
+ 
+	    writer.flush();
+	    writer.close();
+	}
+	catch(IOException e)
+	{
+	     e.printStackTrace();
+	} 
+    }
 }
