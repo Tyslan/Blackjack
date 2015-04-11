@@ -5,10 +5,12 @@ public class DealerPlayer implements Player {
     public DealerPlayer() {
     }
 
+    @Override
     public int bet() {
         throw new RuntimeException("Dealer doesn't bet.");
     }
 
+    @Override
     public Response prompt(Hand playerHand, Hand dealerHand, boolean canSplit) {
         if (dealerHand.getValue() < 17) {
             return Response.H;
@@ -21,9 +23,11 @@ public class DealerPlayer implements Player {
         }
     }
 
+    @Override
     public void notify(Card card) {
     }
 
+    @Override
     public void resetCount(int decks) {
     }
 }

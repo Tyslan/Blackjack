@@ -55,6 +55,7 @@ public class REKOPlayer implements Player {
     public REKOPlayer() {
     }
 
+    @Override
     public int bet() {
         if (count < 8) {
             return 1;
@@ -63,6 +64,7 @@ public class REKOPlayer implements Player {
         }
     }
 
+    @Override
     public Response prompt(Hand playerHand, Hand dealerHand, boolean canSplit) {
         if (playerHand.isPair()) {
             if (canSplit) {
@@ -86,6 +88,7 @@ public class REKOPlayer implements Player {
         }
     }
 
+    @Override
     public void notify(Card card) {
         switch (card) {
             case _2:
@@ -105,6 +108,7 @@ public class REKOPlayer implements Player {
         }
     }
 
+    @Override
     public void resetCount(int decks) {
         switch (decks) {
             case 1:

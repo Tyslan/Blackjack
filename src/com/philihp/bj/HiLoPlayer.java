@@ -55,6 +55,7 @@ public class HiLoPlayer implements Player {
     public HiLoPlayer() {
     }
 
+    @Override
     public int bet() {
         if (count > -14) {
             return 1;
@@ -63,6 +64,7 @@ public class HiLoPlayer implements Player {
         }
     }
 
+    @Override
     public Response prompt(Hand playerHand, Hand dealerHand, boolean canSplit) {
         Response response = null;
         if (playerHand.isPair()) {
@@ -80,6 +82,7 @@ public class HiLoPlayer implements Player {
         return response;
     }
 
+    @Override
     public void notify(Card card) {
         switch (card) {
             case _2:
@@ -99,6 +102,7 @@ public class HiLoPlayer implements Player {
         }
     }
 
+    @Override
     public void resetCount(int decks) {
         switch (decks) {
             case 1:
