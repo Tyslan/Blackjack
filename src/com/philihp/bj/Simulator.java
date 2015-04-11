@@ -19,7 +19,7 @@ public class Simulator {
     /**
      * Number of simulations that are runned
     */
-    public static int NUMBER_OF_SIMULATIONS = 2;
+    public static int NUMBER_OF_SIMULATIONS = 10000;
     
     /**
      * Number of hands that are played in a simulation
