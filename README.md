@@ -1,4 +1,4 @@
 Blackjack
 =========
 
-Monte Carlo Blackjack Simulator
+Simulator voor het project onderzoekstechnieken
