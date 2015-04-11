@@ -9,5 +9,8 @@ public interface Player {
     public void notify(Card card);
 
     public void resetCount(int decks);
-
+    
+    public void setNumberOfMistakes(int number);
+    
+    public int getNumberOfMistakes();
 }

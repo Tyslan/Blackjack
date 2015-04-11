@@ -17,12 +17,17 @@ public class Simulator {
     /**
      * Number of simulations that are runned
     */
-    public static int NUMBER_OF_SIMULATIONS = 10000;
+    public static int NUMBER_OF_SIMULATIONS = 100;
     
     /**
      * Number of hands that are played in a simulation
     */
     public static int NUMBER_OF_HANDS = 100;
+    
+    /**
+     * Chance player chooses wrong response
+    */
+    public static double CHANCE_OF_WRONG_RESPONSE = 0.1;
 
     /**
      * Number of decks in a shoe
@@ -64,21 +69,26 @@ public class Simulator {
         
         randomizer = new SecureRandom();
 
-        Player player = new ZeroMemoryPlayer();
+        Player player = new ZeroMemoryPlayerWithMissChance(CHANCE_OF_WRONG_RESPONSE);
         Player dealer = new DealerPlayer();
 
         long money = 0;
         long handsPlayed = 0;
         long simulationsRunned = 0;
         
-        List<Long> moneyList =  new ArrayList<>();
-        List<Double> houseEdgeList = new ArrayList<>();
+        List<SimulationRunResult> resultList = new ArrayList<>();
         
         while (simulationsRunned < NUMBER_OF_SIMULATIONS) {
             Deck deck = new Deck(SHOE_SIZE, player);
             deck.shuffle(randomizer);
             player.resetCount(SHOE_SIZE);
-
+            
+             try {
+                player.setNumberOfMistakes(0);
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+            
             simulationsRunned++;
             while (handsPlayed < NUMBER_OF_HANDS) {
                 handsPlayed++;
@@ -113,20 +123,22 @@ public class Simulator {
             System.out.println("Hands Played:    " + handsPlayed);
             System.out.println("Money:           " + money);
             System.out.println("Min-Bet:         " + MIN_BET);
-            System.out.println("House Edge :    " + houseEdge + "%");
+            System.out.println("House Edge :     " + houseEdge + "%");
+            System.out.println("Mistakes:        " + player.getNumberOfMistakes());
             System.out.println();
             
-            moneyList.add(money);
-            houseEdgeList.add(houseEdge);
+            resultList.add(new SimulationRunResult(money, houseEdge, player.getNumberOfMistakes()));
             
             handsPlayed = 0;
             money = 0;
         }
         
-        double avgPayout = moneyList.stream().mapToLong(i->i).average().getAsDouble();
-        double avgHouseEdge = houseEdgeList.stream().mapToDouble(i->i).average().getAsDouble();
+        double avgPayout = resultList.stream().mapToLong(SimulationRunResult::getPayout).average().getAsDouble();
+        double avgHouseEdge = resultList.stream().mapToDouble(SimulationRunResult::getHouseEdge).average().getAsDouble();
+        double avgMistakes = resultList.stream().mapToInt(SimulationRunResult::getNumberOfMistakes).average().getAsDouble();
         System.out.println("Average payout: " + avgPayout);
         System.out.println("Average House Edge: " + avgHouseEdge +"%");
+        System.out.println("Averages mistakes: " + avgMistakes);
         
         System.out.println("Runtime: " + ((float) (System.nanoTime() - startTime) / 1000000000f) + " seconds");
     }

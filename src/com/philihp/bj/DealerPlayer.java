@@ -30,4 +30,14 @@ public class DealerPlayer implements Player {
     @Override
     public void resetCount(int decks) {
     }
+
+    @Override
+    public void setNumberOfMistakes(int number) {
+        throw new RuntimeException("Dealer doesn't make mistakes");
+    }
+
+    @Override
+    public int getNumberOfMistakes() {
+        throw new RuntimeException("Dealer doesn't make mistakes");
+    }
 }

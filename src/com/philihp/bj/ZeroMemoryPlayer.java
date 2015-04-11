@@ -91,5 +91,15 @@ public class ZeroMemoryPlayer implements Player {
     @Override
     public void resetCount(int decks) {
     }
+    
+    @Override
+    public void setNumberOfMistakes(int number) {
+        throw new RuntimeException("This player doesn't make mistakes");
+    }
+
+    @Override
+    public int getNumberOfMistakes() {
+        return 0;
+    }
 
 }
