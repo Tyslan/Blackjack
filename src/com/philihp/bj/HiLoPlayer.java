@@ -101,32 +101,6 @@ public class HiLoPlayer implements Player {
                 count--;
         }
     }
-<<<<<<< HEAD
-
-    @Override
-    public void resetCount(int decks) {
-        switch (decks) {
-            case 1:
-                count = -1;
-                break;
-            case 2:
-                count = -5;
-                break;
-            case 3:
-            case 4:
-                count = -12;
-                break;
-            case 5:
-            case 6:
-                count = -20;
-                break;
-            default:
-                count = -27;
-                break;
-        }
-    }
-
-=======
 
     @Override
     public void resetCount(int decks) {
@@ -160,5 +134,4 @@ public class HiLoPlayer implements Player {
     public int getNumberOfMistakes() {
         return 0;
     }
->>>>>>> Working-copy-1
 }

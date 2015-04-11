@@ -91,8 +91,6 @@ public class ZeroMemoryPlayer implements Player {
     @Override
     public void resetCount(int decks) {
     }
-<<<<<<< HEAD
-=======
     
     @Override
     public void setNumberOfMistakes(int number) {
@@ -103,6 +101,4 @@ public class ZeroMemoryPlayer implements Player {
     public int getNumberOfMistakes() {
         return 0;
     }
->>>>>>> Working-copy-1
-
 }

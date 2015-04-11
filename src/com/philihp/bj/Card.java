@@ -23,10 +23,8 @@ public enum Card {
         return this.value;
     }
 
-<<<<<<< HEAD
-=======
+
     @Override
->>>>>>> Working-copy-1
     public String toString() {
         return this.name().substring(1);
     }
