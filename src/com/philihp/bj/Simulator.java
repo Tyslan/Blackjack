@@ -5,6 +5,9 @@
  */
 package com.philihp.bj;
 
+import com.philihp.bj.players.ThorpeBasicPlayerWithMisChance;
+import com.philihp.bj.players.DealerPlayer;
+import com.philihp.bj.players.Player;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -71,7 +74,7 @@ public class Simulator {
         long startTime = System.nanoTime();
         
         randomizer = new SecureRandom();
-        Player player = new ZeroMemoryPlayerWithMissChance(CHANCE_OF_WRONG_RESPONSE);
+        Player player = new ThorpeBasicPlayerWithMisChance(CHANCE_OF_WRONG_RESPONSE);
         Player dealer = new DealerPlayer();
 
         long money = 0;
