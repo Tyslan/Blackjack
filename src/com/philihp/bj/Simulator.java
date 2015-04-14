@@ -32,7 +32,7 @@ public class Simulator {
     /**
      * Chance player chooses wrong response
     */
-    public static double CHANCE_OF_WRONG_RESPONSE = 0.1;
+    public static double CHANCE_OF_WRONG_RESPONSE = 0.0;
 
 
     /**
