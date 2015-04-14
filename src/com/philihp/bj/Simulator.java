@@ -147,7 +147,8 @@ public class Simulator {
         
         System.out.println("Runtime: " + ((float) (System.nanoTime() - startTime) / 1000000000f) + " seconds");
         
-        writeCSV("F:\\result.csv", resultList);
+        String path = "F:\\result "+ NUMBER_OF_SIMULATIONS+"simulations " + CHANCE_OF_WRONG_RESPONSE +"Mischance.csv";
+        writeCSV(path, resultList);
     }
 
     private static float playoutPlayer(Player player, Deck deck,
