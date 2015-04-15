@@ -128,13 +128,6 @@ public class Simulator {
 
                 double houseEdge = -(100 * (double) money / (handsPlayed * MIN_BET));
 
-//            System.out.println("Simulation " + simulationsRunned + ":");
-//            System.out.println("Hands Played:    " + handsPlayed);
-//            System.out.println("Money:           " + money);
-//            System.out.println("Min-Bet:         " + MIN_BET);
-//            System.out.println("House Edge :     " + houseEdge + "%");
-//            System.out.println("Mistakes:        " + player.getNumberOfMistakes());
-//            System.out.println();
                 resultList.add(new SimulationRunResult(simulationsRunned, money, houseEdge, player.getNumberOfMistakes()));
 
                 handsPlayed = 0;
