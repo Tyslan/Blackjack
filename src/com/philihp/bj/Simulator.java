@@ -11,6 +11,7 @@ import com.philihp.bj.players.Player;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,11 @@ public class Simulator {
         long startTime = System.nanoTime();
 
         randomizer = new SecureRandom();
-
+        
+        /**
+         * If you do not want to use this array place it in comment en delete the for-loop.
+         * Then replace mischances[i] to CHANCE_OF_WRONG_RESPONSE
+        */
         double[] mischances = {0.0, 0.01, 0.02, 0.03, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
 
         for (int i = 0; i < mischances.length; i++) {
@@ -113,7 +118,7 @@ public class Simulator {
                     money -= playerHands.get(0).getBet();
 
                     if (dealerHand.getValue() == 21) {
-                    //dealer has blackjack. do not play out hands, just leave money on
+                        //dealer has blackjack. do not play out hands, just leave money on
                         //table and start over.
                         continue;
                     }
@@ -143,7 +148,8 @@ public class Simulator {
 
             System.out.println("Runtime: " + ((float) (System.nanoTime() - startTime) / 1000000000f) + " seconds");
 
-            String path = "F:\\result " + NUMBER_OF_SIMULATIONS + "simulations " + mischances[i] + "Mischance.csv";
+            DecimalFormat formatter = new DecimalFormat("0.000");
+            String path = "F:\\result " + NUMBER_OF_SIMULATIONS + "simulations " + formatter.format(mischances[i]) + "Mischance.csv";
             writeCSV(path, resultList);
         }
     }
